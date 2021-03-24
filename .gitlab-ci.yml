@@ -8,12 +8,15 @@ build-docker-image:
   image: docker:latest
   script:
     - echo "Check the ruby version, then build some Ruby project files:"
-    - docker build -t app:v1 .
+    - docker build -t app .
 
 test-docker-image:
   stage: test
+  image: docker:latest
   script:
-    - echo "If the files are built successfully, test some files with one command:"
+    - docker build -t app .
+    - docker run -d -p 80:80 app
+    - curl localhost:80
 
 publish:
   stage: upload
